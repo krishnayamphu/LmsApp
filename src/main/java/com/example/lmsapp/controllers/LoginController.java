@@ -25,8 +25,7 @@ public class LoginController extends HttpServlet {
         String password = req.getParameter("password");
         User user = UserDAO.authenticate(email, password);
         if(user==null){
-            HttpSession session=req.getSession();
-            session.setAttribute("error","Invalid email or password");
+            req.setAttribute("error","Invalid email or password");
             req.getRequestDispatcher("/WEB-INF/login.jsp").forward(req, resp);
         }else{
             HttpSession session=req.getSession();

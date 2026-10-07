@@ -5,12 +5,10 @@
     <title>Admin Login</title>
 </head>
 <body>
-<form action="login" method="post">
-    <%
-        if(session.getAttribute("error")!=null){
-            out.print(session.getAttribute("error"));
-        }
-    %>
+<form action="${pageContext.request.contextPath}/admin/login" method="post">
+    <c:if test="${not empty error}">
+        <p>${error}</p>
+    </c:if>
     <input type="email" name="email" placeholder="Email" required>
     <input type="password" name="password" placeholder="Password" required>
     <button>Login</button>
