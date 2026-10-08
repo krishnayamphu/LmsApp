@@ -57,7 +57,7 @@ public class CategoryDAO {
         return null;
     }
 
-    public List<Category> findAll() {
+    public static List<Category> findAll() {
 
         List<Category> categories = new ArrayList<>();
 

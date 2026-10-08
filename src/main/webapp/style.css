@@ -1,0 +1,29 @@
+*{
+    font-family: Arial;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.admin-layout{
+    display: flex;
+    height: 100vh;
+}
+.side-nav{
+    background-color: #222;
+    height: 100%;
+    width: 200px;
+    padding: 15px 10px;
+    color:white;
+}
+.side-nav a{
+    color:white;
+    text-decoration: none;
+    display: block;
+    padding: 5px 0;
+}
+.main-content{
+    padding: 15px;
+    background-color: #f8f8f8;
+    width: calc(100% - 200px);
+}
