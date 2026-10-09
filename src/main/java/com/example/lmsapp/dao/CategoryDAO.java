@@ -78,7 +78,7 @@ public class CategoryDAO {
         return categories;
     }
 
-    public boolean update(Category category) {
+    public static boolean update(Category category) {
 
         String sql = "UPDATE categories SET name = ?, description = ? WHERE id = ?";
         try (Connection conn = ConnectDB.connect();
@@ -93,7 +93,7 @@ public class CategoryDAO {
         }
     }
 
-    public boolean delete(int id) {
+    public static boolean delete(int id) {
 
         String sql = "DELETE FROM categories WHERE id = ?";
 

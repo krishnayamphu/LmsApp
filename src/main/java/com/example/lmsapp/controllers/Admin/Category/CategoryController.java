@@ -20,4 +20,12 @@ public class CategoryController extends HttpServlet {
         req.setAttribute("categories",categories);
         req.getRequestDispatcher("/WEB-INF/Admin/Category/index.jsp").forward(req,resp);
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int id=Integer.parseInt(req.getParameter("id"));
+        if(CategoryDAO.delete(id)){
+            resp.sendRedirect("category");
+        }
+    }
 }

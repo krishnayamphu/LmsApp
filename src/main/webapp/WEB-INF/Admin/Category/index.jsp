@@ -18,9 +18,9 @@
          </nav>
      </aside>
      <section class="main-content">
-         <h2>Categories</h2>
-         <a href="category-create">Add New Category</a>
-         <table>
+         <h2 class="content-heading">Categories</h2>
+         <a class="btn-primary" href="category-create">Add New Category</a>
+         <table class="table">
              <tr>
                  <th>#SN</th>
                  <th>Name</th>
@@ -33,8 +33,13 @@
                      <td>${category.name}</td>
                      <td>${category.createdAt}</td>
                      <td>
-                         <a href="">Edit</a>
-                         <a href="">Remove</a>
+                        <div class="input-group">
+                            <a class="btn-secondary" href="category-edit?id=${category.id}">Edit</a>
+                            <form action="category" method="post">
+                                <input type="hidden" name="id" value="${category.id}">
+                                <button class="btn-secondary">Remove</button>
+                            </form>
+                        </div>
                      </td>
                  </tr>
              </c:forEach>
