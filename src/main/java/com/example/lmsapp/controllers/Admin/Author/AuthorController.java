@@ -17,7 +17,7 @@ public class AuthorController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Author> authors= AuthorDAO.findAll();
         req.setAttribute("authors",authors);
-        req.getRequestDispatcher("/WEB-INF/Admin/Author/index.jsp").forward(req,resp);
+        req.getRequestDispatcher("/WEB-INF/Admin/Authors/index.jsp").forward(req,resp);
     }
 
     @Override

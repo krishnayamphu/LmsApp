@@ -15,7 +15,7 @@ import java.io.IOException;
 public class AuthorCreateController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/Admin/Author/create.jsp").forward(req,resp);
+        req.getRequestDispatcher("/WEB-INF/Admin/Authors/create.jsp").forward(req,resp);
     }
 
     @Override
