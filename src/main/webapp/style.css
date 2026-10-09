@@ -1,53 +1,58 @@
-*{
+* {
     font-family: Arial;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-.admin-layout{
+.admin-layout {
     display: flex;
     height: 100vh;
 }
-.side-nav{
+
+.side-nav {
     background-color: #222;
     height: 100%;
     width: 200px;
     padding: 15px 10px;
-    color:white;
+    color: white;
 }
-.side-nav a{
-    color:white;
+
+.side-nav a {
+    color: white;
     text-decoration: none;
     display: block;
     padding: 10px;
     transition: all 0.3s;
 }
-.side-nav a:hover{
+
+.side-nav a:hover {
     background-color: #414141;
     border-radius: 2px;
 }
-.main-content{
+
+.main-content {
     padding: 15px;
     background-color: #f8f8f8;
     width: calc(100% - 200px);
 }
 
-.table{
+.table {
     border-collapse: collapse;
 }
-.table th, .table td{
-    border: 1px solid #a1a1a1!important;
+
+.table th, .table td {
+    border: 1px solid #a1a1a1 !important;
     padding: 5px;
 }
 
-.content-heading{
+.content-heading {
     margin-bottom: 10px;
 }
 
-.btn-primary{
+.btn-primary {
     background-color: #222222;
-    color:white;
+    color: white;
     border-radius: 2px;
     text-decoration: none;
     display: inline-block;
@@ -56,11 +61,13 @@
     border: none;
     transition: all 0.3s;
 }
-.btn-primary:hover{
+
+.btn-primary:hover {
     background-color: #414141;
 
 }
-.btn-secondary{
+
+.btn-secondary {
     color: #414141;
     background-color: white;
     border-radius: 2px;
@@ -71,24 +78,38 @@
     font-size: 16px;
     transition: all 0.3s;
 }
-.btn-secondary:hover{
+
+.btn-secondary:hover {
     background-color: #414141;
-    color:white;
+    color: white;
 }
-.form{
+
+.form {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
-.form input,.form textarea{
+
+.form input, .form textarea {
     padding: 10px;
 }
-.form button{
+
+.form button {
     align-self: flex-start;
     padding: 10px 20px;
 }
 
-.input-group{
+.input-group {
     display: flex;
-gap:10px;
+    gap: 10px;
+}
+.error{
+    color:red;
+    padding: 10px 0;
+    margin-bottom: 10px;
+}
+.success{
+    color:green;
+    padding: 10px 0;
+    margin-bottom: 10px;
 }
