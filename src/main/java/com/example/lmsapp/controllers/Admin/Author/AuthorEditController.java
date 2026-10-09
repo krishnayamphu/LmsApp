@@ -16,7 +16,7 @@ public class AuthorEditController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
-        req.setAttribute("author", CategoryDAO.findById(id));
+        req.setAttribute("author",AuthorDAO.findById(id));
         req.getRequestDispatcher("/WEB-INF/Admin/Authors/edit.jsp").forward(req, resp);
     }
 
@@ -42,6 +42,6 @@ public class AuthorEditController extends HttpServlet {
         AuthorDAO.update(author);
         req.setAttribute("author", author);
         req.setAttribute("success", "Author updated successfully.");
-        req.getRequestDispatcher("/WEB-INF/Admin/Author/edit.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/Admin/Authors/edit.jsp").forward(req, resp);
     }
 }

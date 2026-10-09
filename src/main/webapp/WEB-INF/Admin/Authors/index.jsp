@@ -2,24 +2,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Categories | LMS</title>
+    <title>Authors | LMS</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style.css">
 </head>
 <body>
  <div class="admin-layout">
-     <aside class="side-nav">
-         <a href="dashboard">LMS</a>
-         <hr>
-         <nav>
-             <a href="">Books</a>
-             <a href="category">Categories</a>
-             <a href="">Authors</a>
-             <a href="">Users</a>
-         </nav>
-     </aside>
+     <jsp:include page="/WEB-INF/Admin/side-nav.jsp"/>
      <section class="main-content">
-         <h2 class="content-heading">Categories</h2>
-         <a class="btn-primary" href="category-create">Add New Category</a>
+         <h2 class="content-heading">Authors</h2>
+         <a class="btn-primary" href="author-create">Add New Author</a>
          <table class="table">
              <tr>
                  <th>#SN</th>
@@ -27,16 +18,16 @@
                  <th>Created At</th>
                  <th>Action</th>
              </tr>
-             <c:forEach var="category" items="${categories}">
+             <c:forEach var="author" items="${authors}">
                  <tr>
-                     <td>${category.id}</td>
-                     <td>${category.name}</td>
-                     <td>${category.createdAt}</td>
+                     <td>${author.id}</td>
+                     <td>${author.name}</td>
+                     <td>${author.createdAt}</td>
                      <td>
                         <div class="input-group">
-                            <a class="btn-secondary" href="category-edit?id=${category.id}">Edit</a>
-                            <form action="category" method="post">
-                                <input type="hidden" name="id" value="${category.id}">
+                            <a class="btn-secondary" href="author-edit?id=${author.id}">Edit</a>
+                            <form action="author" method="post">
+                                <input type="hidden" name="id" value="${author.id}">
                                 <button class="btn-secondary">Remove</button>
                             </form>
                         </div>

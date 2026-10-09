@@ -7,16 +7,7 @@
 </head>
 <body>
  <div class="admin-layout">
-     <aside class="side-nav">
-         <a href="dashboard">LMS</a>
-         <hr>
-         <nav>
-             <a href="">Books</a>
-             <a href="category">Categories</a>
-             <a href="">Authors</a>
-             <a href="">Users</a>
-         </nav>
-     </aside>
+     <jsp:include page="/WEB-INF/Admin/side-nav.jsp"/>
      <section class="main-content">
          <h2 class="content-heading">Categories</h2>
          <a class="btn-primary" href="category-create">Add New Category</a>
@@ -44,7 +35,6 @@
                  </tr>
              </c:forEach>
          </table>
-
      </section>
  </div>
 </body>
