@@ -26,7 +26,7 @@
                      <td>
                         <div class="input-group">
                             <a class="btn-secondary" href="author-edit?id=${author.id}">Edit</a>
-                            <form action="author" method="post">
+                            <form action="authors" method="post">
                                 <input type="hidden" name="id" value="${author.id}">
                                 <button class="btn-secondary">Remove</button>
                             </form>
