@@ -3,7 +3,6 @@ package com.example.lmsapp.controllers;
 import com.example.lmsapp.dao.UserDAO;
 import com.example.lmsapp.models.User;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,7 +29,7 @@ public class LoginController extends HttpServlet {
         }else{
             HttpSession session=req.getSession();
             session.setAttribute("authUser",user);
-            session.setMaxInactiveInterval(60*15);
+//            session.setMaxInactiveInterval(60*15);
             resp.sendRedirect("dashboard");
         }
     }

@@ -3,9 +3,10 @@
 <html>
 <head>
     <title>Admin Login</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<form action="${pageContext.request.contextPath}/admin/login" method="post">
+<form class="form login-form" action="${pageContext.request.contextPath}/admin-login" method="post">
     <c:if test="${not empty error}">
         <p>${error}</p>
     </c:if>

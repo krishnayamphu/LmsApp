@@ -1,35 +1,30 @@
+
 package com.example.lmsapp.filters;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter({"/admin/category"})
+@WebFilter({"/admin/*"})
 public class AuthFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        Filter.super.init(filterConfig);
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        HttpServletRequest request= (HttpServletRequest) servletRequest;
-        HttpServletResponse response= (HttpServletResponse) servletResponse;
-        HttpSession session=request.getSession();
-        if(session==null){
-//           request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request,response);
-            response.sendRedirect("/lms/admin-login");
-        }else{
-            if(session.getAttribute("authUser")==null){
-//                request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request,response);
-                response.sendRedirect("/lms/admin-login");
-            }else{
-                filterChain.doFilter(servletRequest,servletResponse);
-            }
+
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
+
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("authUser") == null) {
+            response.sendRedirect(request.getContextPath() + "/admin-login");
+            return;
         }
+        filterChain.doFilter(request, response);
     }
 }
