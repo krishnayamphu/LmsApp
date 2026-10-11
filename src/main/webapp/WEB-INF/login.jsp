@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Admin Login</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/style.css">
 </head>
 <body>
 <form class="form login-form" action="${pageContext.request.contextPath}/admin-login" method="post">

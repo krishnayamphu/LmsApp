@@ -113,3 +113,12 @@
     padding: 10px 0;
     margin-bottom: 10px;
 }
+
+/* login-form */
+.login-form{
+    width: 300px;
+    margin: 60px auto;
+    padding: 15px;
+    border: 1px solid #414141;
+    border-radius: 5px;
+}
