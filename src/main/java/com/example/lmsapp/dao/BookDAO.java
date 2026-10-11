@@ -20,12 +20,12 @@ public class BookDAO {
                 ps = con.prepareStatement(sql);
                 ps.setString(1, book.getTitle());
                 ps.setString(2, book.getPublisher());
-                ps.setInt(3,book.getPublicationYear());
-                ps.setInt(4,book.getEdition());
-                ps.setInt(5,book.getQuantity());
-                ps.setInt(6,book.getAvailableQuantity());
-                ps.setString(7,book.getImage());
-                ps.setInt(8,book.getCategoryId());
+                ps.setInt(3, book.getPublicationYear());
+                ps.setInt(4, book.getEdition());
+                ps.setInt(5, book.getQuantity());
+                ps.setInt(6, book.getAvailableQuantity());
+                ps.setString(7, book.getImage());
+                ps.setInt(8, book.getCategoryId());
                 ps.executeUpdate();
             }
         } catch (SQLException ex) {
@@ -48,10 +48,10 @@ public class BookDAO {
         return null;
     }
 
-    public static Category findByName(String name) {
-        String sql = "SELECT * FROM categories WHERE name=?";
+    public static Book findByTitle(String title) {
+        String sql = "SELECT * FROM categories WHERE title=?";
         try (Connection con = ConnectDB.connect(); PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, name);
+            ps.setString(1, title);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return mapRow(rs);
@@ -63,45 +63,32 @@ public class BookDAO {
         return null;
     }
 
-    public static List<Category> findAll() {
+    public static List<Book> findAll() {
 
-        List<Category> categories = new ArrayList<>();
+        List<Book> books = new ArrayList<>();
 
-        String sql = "SELECT * FROM categories ORDER BY created_at ASC";
+        String sql = "SELECT * FROM books ORDER BY created_at ASC";
 
         try (Connection conn = ConnectDB.connect();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                categories.add(mapRow(rs));
+                books.add(mapRow(rs));
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return categories;
+        return books;
     }
 
-    public static boolean update(Category category) {
-
-        String sql = "UPDATE categories SET name = ?, description = ? WHERE id = ?";
-        try (Connection conn = ConnectDB.connect();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, category.getName());
-            ps.setString(2, category.getDescription());
-            ps.setLong(3, category.getId());
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+    public static boolean update(Book book) {
+        return false;
     }
 
     public static boolean delete(int id) {
 
-        String sql = "DELETE FROM categories WHERE id = ?";
+        String sql = "DELETE FROM books WHERE id = ?";
 
         try (Connection conn = ConnectDB.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
