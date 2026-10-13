@@ -13,7 +13,7 @@ public class BookDAO {
         try (Connection con = ConnectDB.connect()) {
             PreparedStatement ps;
             String sql = "INSERT INTO books(title,publisher,publication_year,edition,quantity,available_quantity,image,category_id) VALUES(?,?,?,?,?,?,?,?)";
-            String authorSql="INSERT INTO book_authors(book_id,author_id) VALUES(?,?)";
+            String authorSql = "INSERT INTO book_authors(book_id,author_id) VALUES(?,?)";
             int bookId;
             if (con != null) {
                 ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -26,17 +26,17 @@ public class BookDAO {
                 ps.setString(7, book.getImage());
                 ps.setInt(8, book.getCategoryId());
                 ps.executeUpdate();
-                try(ResultSet keys=ps.getGeneratedKeys()){
-                    if(!keys.next()){
+                try (ResultSet keys = ps.getGeneratedKeys()) {
+                    if (!keys.next()) {
                         throw new SQLException("Book ID was not generated");
                     }
-                    bookId=keys.getInt(1);
+                    bookId = keys.getInt(1);
                 }
-                if(authorIds!=null && !authorIds.isEmpty()){
-                    try(PreparedStatement psmt=con.prepareStatement(authorSql)){
-                        for(Integer authorId:authorIds){
-                            psmt.setInt(1,bookId);
-                            psmt.setInt(2,authorId);
+                if (authorIds != null && !authorIds.isEmpty()) {
+                    try (PreparedStatement psmt = con.prepareStatement(authorSql)) {
+                        for (Integer authorId : authorIds) {
+                            psmt.setInt(1, bookId);
+                            psmt.setInt(2, authorId);
                             psmt.addBatch();
                         }
                         psmt.executeBatch();
@@ -79,15 +79,11 @@ public class BookDAO {
     }
 
     public static List<Book> findAll() {
-
         List<Book> books = new ArrayList<>();
-
         String sql = "SELECT b.*, c.id AS c_id, c.name AS name, c.description AS description FROM books b LEFT JOIN categories c ON c.id = b.category_id ORDER BY b.id DESC";
-
         try (Connection conn = ConnectDB.connect();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
-
             while (rs.next()) {
                 books.add(mapRow(rs));
             }
@@ -107,11 +103,8 @@ public class BookDAO {
 
         try (Connection conn = ConnectDB.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-
             ps.setLong(1, id);
-
             return ps.executeUpdate() > 0;
-
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -138,6 +131,9 @@ public class BookDAO {
             category.setName(rs.getString("name"));
             category.setDescription(rs.getString("description"));
             book.setCategory(category);
+        }
+        if (book != null) {
+            book.setAuthors(AuthorDAO.findByBookId(book.getId()));
         }
         return book;
     }

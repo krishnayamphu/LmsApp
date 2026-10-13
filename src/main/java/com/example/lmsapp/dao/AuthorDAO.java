@@ -71,6 +71,26 @@ public class AuthorDAO {
         return authors;
     }
 
+
+    public static List<Author> findByBookId(int bookId) throws SQLException {
+        List<Author> authors = new ArrayList<>();
+        String sql = "SELECT a.id, a.name, a.biography FROM authors a INNER JOIN book_authors ba ON ba.author_id = a.id WHERE ba.book_id = ? ORDER BY a.name";
+        try (Connection con = ConnectDB.connect();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, bookId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Author author = new Author();
+                    author.setId(rs.getInt("id"));
+                    author.setName(rs.getString("name"));
+                    author.setBiography(rs.getString("biography"));
+                    authors.add(author);
+                }
+            }
+        }
+        return authors;
+    }
+
     public static boolean update(Author author) {
         String sql = "UPDATE authors SET name = ?, biography = ? WHERE id = ?";
         try (Connection conn = ConnectDB.connect();

@@ -16,7 +16,7 @@ public class Book {
     private String createdAt;
     private String updatedAt;
     private Category category;
-    private List<Integer> authors=new ArrayList<>();
+    List<Author> authors=new ArrayList<>();
 
     public Book() {
     }
@@ -118,11 +118,11 @@ public class Book {
         this.category = category;
     }
 
-    public List<Integer> getAuthors() {
+    public List<Author> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(List<Integer> authors) {
+    public void setAuthors(List<Author> authors) {
         this.authors = authors;
     }
 }

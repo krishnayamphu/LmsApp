@@ -42,7 +42,20 @@
             </tr>
             <tr>
                 <th>Writers/Authors</th>
-                <td>-</td>
+                <td>
+                    <c:choose>
+                        <c:when test="${not empty book.authors}">
+                            <c:forEach var="author" items="${book.authors}"
+                                       varStatus="status">
+                                <c:if test="${status.index > 0}">, </c:if>
+                                <c:out value="${author.name}" />
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            No authors assigned
+                        </c:otherwise>
+                    </c:choose>
+                </td>
             </tr>
             <tr>
                 <th>Cover Image</th>
