@@ -23,6 +23,13 @@
                     <option value="${category.id}"><c:out value="${category.name}"/></option>
                 </c:forEach>
             </select>
+            <label for="authors">Authors</label>
+            <select id="authors" name="author_ids" multiple size="4">
+                <c:forEach var="author" items="${authors}">
+                    <option value="${author.id}"><c:out value="${author.name}"/></option>
+                </c:forEach>
+            </select>
+            <small>Hold <kbd>Ctrl</kbd> to select multiple authors.</small>
             <hr>
             <label>Book Image</label>
             <input type="file" name="image">

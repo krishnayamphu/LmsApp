@@ -17,6 +17,7 @@
                  <th>Title</th>
                  <th>Publisher</th>
                  <th>Stock</th>
+                 <th>Category</th>
                  <th>Image</th>
                  <th>Created At</th>
                  <th>Action</th>
@@ -27,7 +28,15 @@
                      <td>${book.title}</td>
                      <td>${book.publisher}</td>
                      <td>${book.availableQuantity}</td>
-                     <td>${book.image}</td>
+                     <td> <c:choose>
+                         <c:when test="${not empty book.category}">
+                             <c:out value="${book.category.name}" />
+                         </c:when>
+                         <c:otherwise>
+                            -
+                         </c:otherwise>
+                     </c:choose></td>
+                     <td><img class="thumb-sm" src="${pageContext.request.contextPath}/uploads/${book.image}"/></td>
                      <td>${book.createdAt}</td>
                      <td>
                         <div class="input-group">

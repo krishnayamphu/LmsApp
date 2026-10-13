@@ -1,5 +1,6 @@
 package com.example.lmsapp.controllers.Admin.Book;
 
+import com.example.lmsapp.dao.AuthorDAO;
 import com.example.lmsapp.dao.BookDAO;
 
 import javax.servlet.ServletException;
@@ -14,6 +15,7 @@ public class BookController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("books", BookDAO.findAll());
+        req.setAttribute("authors", AuthorDAO.findAll());
         req.getRequestDispatcher("/WEB-INF/Admin/Books/index.jsp").forward(req, resp);
     }
 

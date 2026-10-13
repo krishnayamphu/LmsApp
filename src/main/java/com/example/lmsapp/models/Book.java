@@ -1,5 +1,8 @@
 package com.example.lmsapp.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Book {
     private int id;
     private String title;
@@ -12,6 +15,8 @@ public class Book {
     private int categoryId;
     private String createdAt;
     private String updatedAt;
+    private Category category;
+    private List<Integer> authors=new ArrayList<>();
 
     public Book() {
     }
@@ -102,5 +107,22 @@ public class Book {
 
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public List<Integer> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(List<Integer> authors) {
+        this.authors = authors;
     }
 }

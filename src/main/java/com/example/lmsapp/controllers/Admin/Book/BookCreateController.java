@@ -1,5 +1,6 @@
 package com.example.lmsapp.controllers.Admin.Book;
 
+import com.example.lmsapp.dao.AuthorDAO;
 import com.example.lmsapp.dao.BookDAO;
 import com.example.lmsapp.dao.CategoryDAO;
 import com.example.lmsapp.models.Book;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -23,9 +25,11 @@ import java.util.List;
 public class BookCreateController extends HttpServlet {
     private String title,publisher,image;
     private int publication_year,edition,quantity,category_id;
+    private List<Integer> authorIds=new ArrayList<>();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("categories", CategoryDAO.findAll());
+        req.setAttribute("authors", AuthorDAO.findAll());
         req.getRequestDispatcher("/WEB-INF/Admin/Books/create.jsp").forward(req, resp);
     }
 
@@ -61,7 +65,7 @@ public class BookCreateController extends HttpServlet {
                 book.setAvailableQuantity(quantity);
                 book.setCategoryId(category_id);
                 book.setImage(image);
-                BookDAO.save(book);
+                BookDAO.save(book,authorIds);
                 response.sendRedirect("books");
             } catch (FileUploadException e) {
                 throw new RuntimeException(e);
@@ -85,6 +89,8 @@ public class BookCreateController extends HttpServlet {
             quantity=Integer.parseInt(item.getString());
         }else if (item.getFieldName().equals("category_id")) {
             category_id=Integer.parseInt(item.getString());
+        }else if(item.getFieldName().equals("author_ids")){
+            authorIds.add(Integer.parseInt(item.getString()));
         }
     }
 

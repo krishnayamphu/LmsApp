@@ -4,20 +4,19 @@ import com.example.lmsapp.config.ConnectDB;
 import com.example.lmsapp.models.Book;
 import com.example.lmsapp.models.Category;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BookDAO {
-    public static void save(Book book) {
+    public static void save(Book book, List<Integer> authorIds) {
         try (Connection con = ConnectDB.connect()) {
             PreparedStatement ps;
             String sql = "INSERT INTO books(title,publisher,publication_year,edition,quantity,available_quantity,image,category_id) VALUES(?,?,?,?,?,?,?,?)";
+            String authorSql="INSERT INTO book_authors(book_id,author_id) VALUES(?,?)";
+            int bookId;
             if (con != null) {
-                ps = con.prepareStatement(sql);
+                ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, book.getTitle());
                 ps.setString(2, book.getPublisher());
                 ps.setInt(3, book.getPublicationYear());
@@ -27,6 +26,22 @@ public class BookDAO {
                 ps.setString(7, book.getImage());
                 ps.setInt(8, book.getCategoryId());
                 ps.executeUpdate();
+                try(ResultSet keys=ps.getGeneratedKeys()){
+                    if(!keys.next()){
+                        throw new SQLException("Book ID was not generated");
+                    }
+                    bookId=keys.getInt(1);
+                }
+                if(authorIds!=null && !authorIds.isEmpty()){
+                    try(PreparedStatement psmt=con.prepareStatement(authorSql)){
+                        for(Integer authorId:authorIds){
+                            psmt.setInt(1,bookId);
+                            psmt.setInt(2,authorId);
+                            psmt.addBatch();
+                        }
+                        psmt.executeBatch();
+                    }
+                }
             }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
@@ -34,7 +49,7 @@ public class BookDAO {
     }
 
     public static Book findById(int id) {
-        String sql = "SELECT * FROM books WHERE id=?";
+        String sql = "SELECT b.*, c.id AS c_id, c.name AS name, c.description AS description FROM books b LEFT JOIN categories c ON c.id = b.category_id WHERE b.id=? ORDER BY b.id DESC";
         try (Connection con = ConnectDB.connect(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
@@ -67,7 +82,7 @@ public class BookDAO {
 
         List<Book> books = new ArrayList<>();
 
-        String sql = "SELECT * FROM books ORDER BY created_at ASC";
+        String sql = "SELECT b.*, c.id AS c_id, c.name AS name, c.description AS description FROM books b LEFT JOIN categories c ON c.id = b.category_id ORDER BY b.id DESC";
 
         try (Connection conn = ConnectDB.connect();
              PreparedStatement ps = conn.prepareStatement(sql);
@@ -116,6 +131,14 @@ public class BookDAO {
         book.setCategoryId(rs.getInt("category_id"));
         book.setCreatedAt(rs.getString("created_at"));
         book.setUpdatedAt(rs.getString("updated_at"));
+
+        if (rs.getObject("c_id") != null) {
+            Category category = new Category();
+            category.setId(rs.getInt("c_id"));
+            category.setName(rs.getString("name"));
+            category.setDescription(rs.getString("description"));
+            book.setCategory(category);
+        }
         return book;
     }
 }
