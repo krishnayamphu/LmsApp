@@ -9,11 +9,11 @@
 <div class="admin-layout">
     <jsp:include page="/WEB-INF/Admin/side-nav.jsp"/>
     <section class="main-content">
-        <h2 class="content-heading">Category Details</h2>
+        <h2 class="content-heading">Book Details</h2>
         <a class="btn-primary" href="books">All books</a>
         <form class="form" action="books-create" method="post" enctype="multipart/form-data">
-            <input type="text" name="title" placeholder="Book Name" required>
-            <input type="text" name="publisher" placeholder="Book Publisher" required>
+            <input type="text" name="title" placeholder="Book Name" value="${book.title}" required>
+            <input type="text" name="publisher" placeholder="Book Publisher" value="${book.publisher}" required>
             <input type="text" name="publication_year" placeholder="Publication Year" required>
             <input type="text" name="edition" placeholder="Book Edition" required>
             <input type="text" name="quantity" placeholder="Quantity" required>

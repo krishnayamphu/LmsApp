@@ -28,9 +28,11 @@ public class BookEditController extends HttpServlet {
     private List<Integer> authorIds=new ArrayList<>();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int id=Integer.parseInt(req.getParameter("id"));
         req.setAttribute("categories", CategoryDAO.findAll());
         req.setAttribute("authors", AuthorDAO.findAll());
-        req.getRequestDispatcher("/WEB-INF/Admin/Books/create.jsp").forward(req, resp);
+        req.setAttribute("book",BookDAO.findById(id));
+        req.getRequestDispatcher("/WEB-INF/Admin/Books/edit.jsp").forward(req, resp);
     }
 
     @Override

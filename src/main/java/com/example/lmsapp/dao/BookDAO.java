@@ -97,10 +97,86 @@ public class BookDAO {
         return false;
     }
 
+
+    public static void update(Book book, List<Integer> authorIds) throws SQLException {
+        String updateSql = "UPDATE books SET title=?,publisher=?,publication_year=?,edition=?,quantity=?,available_quantity=?,image=?,category_id=? WHERE id=?";
+        String deleteAuthorsSql = "DELETE FROM book_authors WHERE book_id = ?";
+        String insertAuthorsSql = "INSERT INTO book_authors (book_id, author_id) VALUES (?, ?)";
+
+        try (Connection con = ConnectDB.connect()) {
+            con.setAutoCommit(false);
+            try {
+                // Lock the book row and read its current stock.
+                int oldQuantity;
+                int oldAvailable;
+                try (PreparedStatement ps = con.prepareStatement("SELECT quantity, available_quantity FROM books WHERE id = ? FOR UPDATE")) {
+                    ps.setInt(1, book.getId());
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (!rs.next()) {
+                            throw new SQLException("Book not found.");
+                        }
+                        oldQuantity = rs.getInt("quantity");
+                        oldAvailable = rs.getInt("available_quantity");
+                    }
+                }
+
+                // Preserve outstanding loans when changing total stock.
+                int newAvailable = oldAvailable + (book.getQuantity() - oldQuantity);
+                if (book.getQuantity() < 0 || newAvailable < 0) {
+                    throw new SQLException("Total quantity cannot be less than books currently issued.");
+                }
+
+                try (PreparedStatement ps = con.prepareStatement(updateSql)) {
+                    ps.setString(1, book.getTitle());
+                    ps.setString(2, book.getPublisher());
+                    ps.setInt(3, book.getPublicationYear());
+                    ps.setInt(4, book.getEdition());
+                    ps.setInt(5, book.getQuantity());
+                    ps.setInt(6, newAvailable);
+                    ps.setString(7, book.getImage());
+                    ps.setInt(8, book.getCategoryId());
+                    ps.setInt(9, book.getId());
+
+                    if (ps.executeUpdate() == 0) {
+                        throw new SQLException("Book update failed.");
+                    }
+                }
+
+                try (PreparedStatement ps = con.prepareStatement(deleteAuthorsSql)) {
+                    ps.setInt(1, book.getId());
+                    ps.executeUpdate();
+                }
+
+                try (PreparedStatement ps = con.prepareStatement(insertAuthorsSql)) {
+                    for (Integer authorId : authorIds) {
+                        ps.setInt(1, book.getId());
+                        ps.setInt(2, authorId);
+                        ps.addBatch();
+                    }
+                    if (!authorIds.isEmpty()) {
+                        ps.executeBatch();
+                    }
+                }
+
+                con.commit();
+
+            } catch (Exception e) {
+                con.rollback();
+
+                if (e instanceof SQLException) {
+                    throw (SQLException) e;
+                }
+                throw new SQLException("Unable to update book.", e);
+
+            } finally {
+                con.setAutoCommit(true);
+            }
+        }
+    }
+
+
     public static boolean delete(int id) {
-
         String sql = "DELETE FROM books WHERE id = ?";
-
         try (Connection conn = ConnectDB.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);

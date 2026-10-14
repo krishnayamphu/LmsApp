@@ -9,5 +9,7 @@
 </h1>
 <br/>
 <a href="hello-servlet">Hello Servlet</a>
+<a href="signin">Member Login</a>
+<a href="">Admin Login</a>
 </body>
 </html>
