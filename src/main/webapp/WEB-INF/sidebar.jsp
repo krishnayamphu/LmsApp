@@ -3,6 +3,13 @@
     <hr>
     <nav>
         <a href="my-books">My Books</a>
-        <a href="members">Profile</a>
+        <a href="profile">Profile</a>
+        <hr>
+        <form action="${pageContext.request.contextPath}/me/logout"
+              method="post">
+            <button type="submit" class="btn-primary">
+                Logout
+            </button>
+        </form>
     </nav>
 </aside>

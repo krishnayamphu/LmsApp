@@ -3,13 +3,12 @@
 <html>
 <head>
     <title>JSP - Hello World</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/style.css">
 </head>
-<body>
-<h1><%= "Hello World!" %>
-</h1>
+<body class="home-page">
+<h1>Welcome to Library Management System</h1>
 <br/>
-<a href="hello-servlet">Hello Servlet</a>
 <a href="signin">Member Login</a>
-<a href="">Admin Login</a>
+<a href="admin-login">Admin Login</a>
 </body>
 </html>
